@@ -5,7 +5,7 @@ import (
 	objs "github.com/SakoDroid/telego/objects"
 )
 //This the token you receive from botfather
-const token string = "5961795051:AAGjuNF-bSjLb43S5Wr-R4GW81ERZ4A4xoU"
+const token string = ""
 //The instance of the bot
 var bot *bt.Bot
 func main() {
