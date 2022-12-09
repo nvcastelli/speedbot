@@ -11,7 +11,7 @@ var bot *bt.Bot
 func main() {
 	//Update configs
 	up := cfg.DefaultUpdateConfigs()
-    
+   //Pushing bot configs next 
     //Bot configs
 cf := cfg.BotConfigs{
       BotAPI: cfg.DefaultBotAPI, 
