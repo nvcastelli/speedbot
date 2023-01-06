@@ -1,23 +1,37 @@
 package main
+
 import (
-	bt "github.com/SakoDroid/telego"
-	cfg "github.com/SakoDroid/telego/configs"
-	objs "github.com/SakoDroid/telego/objects"
+   "fmt"
+   "time"
+   
+   st "github.com/showwin/speedtest-go/speedtest"
 )
-//This the token you receive from botfather
-const token string = ""
-//The instance of the bot
-var bot *bt.Bot
-func main() {
-	//Update configs
-	up := cfg.DefaultUpdateConfigs()
-   //Pushing bot configs next 
-    //Bot configs
-cf := cfg.BotConfigs{
-      BotAPI: cfg.DefaultBotAPI, 
-      APIKey: token, UpdateConfigs: up, 
-      Webhook: false, 
-      LogFileAddress: cfg.DefaultLogFile
+
+func main(){
+   fmt.Println("hello");
+   
+   for stay, timeout := true, time.After(time.Second); stay; {
+    fmt.Println(time.Now());
+    select {
+    case <-timeout:
+        stay = false
+    default:
     }
-	
+}
+
+   user, _ := st.FetchUserInfo()
+	// Get a list of servers near a specified location
+	// user.SetLocationByCity("Tokyo")
+	// user.SetLocation("Osaka", 34.6952, 135.5006)
+
+	serverList, _ := st.FetchServers(user)
+	targets, _ := serverList.FindServer([]int{})
+
+	for _, s := range targets {
+		s.PingTest()
+		s.DownloadTest(false)
+		s.UploadTest(false)
+
+		fmt.Printf("Latency: %s, Download: %f, Upload: %f\n", s.Latency, s.DLSpeed, s.ULSpeed)
+	}
 }
