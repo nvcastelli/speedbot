@@ -8,7 +8,7 @@ import (
 )
 
 func main(){
-   fmt.Println("hello");
+   fmt.Println("Will run iterations over the speed bot program to get an average internet speed test while the process is running");
    
    for stay, timeout := true, time.After(time.Second); stay; {
     fmt.Println(time.Now());
