@@ -21,14 +21,18 @@ func main(){
    //scanLengthSeconds := int(d / time.Second)
 
 
+   var downloadSpeeds []float64
+
    for stay, timeout := true, time.After(timeLength); stay; {
     fmt.Println(time.Now());
     select {
     case <-timeout:
         stay = false
+	fmt.Println("+++I'm in timeout case?+++")
     default:
-    }
-}
+	 fmt.Println("---I'm in default case?---")
+    
+
 
    user, _ := st.FetchUserInfo()
 	// Get a list of servers near a specified location
@@ -44,5 +48,14 @@ func main(){
 		s.UploadTest(false)
 
 		fmt.Printf("Latency: %s, Download: %f, Upload: %f\n", s.Latency, s.DLSpeed, s.ULSpeed)
+		downloadSpeeds = append(downloadSpeeds, s.DLSpeed)
 	}
+
+   fmt.Println("The list of speeds are: ")
+   fmt.Println(downloadSpeeds)
+
+      }
+
+   }
+
 }
