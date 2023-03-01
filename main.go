@@ -3,14 +3,25 @@ package main
 import (
    "fmt"
    "time"
-   
+   "os"
+
    st "github.com/showwin/speedtest-go/speedtest"
 )
 
 func main(){
    fmt.Println("Will run iterations over the speed bot program to get an average internet speed test while the process is running");
    
-   for stay, timeout := true, time.After(time.Second); stay; {
+   scanLengthString := os.Args[1]
+
+   timeLength, _ := time.ParseDuration(scanLengthString)
+
+   //scanLengthInt, err := strconv.Atoi(scanLengthString)
+
+   //d := time.Minute * scanLengthInt
+   //scanLengthSeconds := int(d / time.Second)
+
+
+   for stay, timeout := true, time.After(timeLength); stay; {
     fmt.Println(time.Now());
     select {
     case <-timeout:
