@@ -15,13 +15,16 @@ func main(){
 
    timeLength, _ := time.ParseDuration(scanLengthString)
 
+   var count float64  = 0
    //scanLengthInt, err := strconv.Atoi(scanLengthString)
 
    //d := time.Minute * scanLengthInt
    //scanLengthSeconds := int(d / time.Second)
 
 
+   var sum float64 = 0;
    var downloadSpeeds []float64
+
 
    for stay, timeout := true, time.After(timeLength); stay; {
     fmt.Println(time.Now());
@@ -49,12 +52,21 @@ func main(){
 
 		fmt.Printf("Latency: %s, Download: %f, Upload: %f\n", s.Latency, s.DLSpeed, s.ULSpeed)
 		downloadSpeeds = append(downloadSpeeds, s.DLSpeed)
+		count++
 	}
+
+   for _, value := range downloadSpeeds {
+	   sum += value
+   }
 
    fmt.Println("The list of speeds are: ")
    fmt.Println(downloadSpeeds)
 
       }
+
+      averageSpeeds := sum/count
+      fmt.Println("The download speed average is:")
+   fmt.Println(averageSpeeds)
 
    }
 
