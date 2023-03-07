@@ -8,6 +8,21 @@ import (
    st "github.com/showwin/speedtest-go/speedtest"
 )
 
+type pingSet struct {
+   iteration float64
+   download float64
+   upload float64
+   latency time.Duration
+}
+
+func newPingSet(iteration float64, download float64, upload float64, latency time.Duration) pingSet {
+   p := pingSet{iteration: iteration}
+   p.download = download
+   p.upload = upload
+   p.latency = latency
+   return p
+}
+
 func main(){
    fmt.Println("Will run iterations over the speed bot program to get an average internet speed test while the process is running");
    
@@ -23,7 +38,7 @@ func main(){
 
 
    var sum float64 = 0
-   var downloadSpeeds []float64
+   var downloadSpeeds []pingSet
 
 
    for stay, timeout := true, time.After(timeLength); stay; {
@@ -47,10 +62,10 @@ func main(){
          		s.PingTest()
          		s.DownloadTest(false)
          		s.UploadTest(false)
+               count++
 
          		fmt.Printf("Latency: %s, Download: %f, Upload: %f\n", s.Latency, s.DLSpeed, s.ULSpeed)
-         		downloadSpeeds = append(downloadSpeeds, s.DLSpeed)
-         		count++
+         		downloadSpeeds = append(downloadSpeeds, newPingSet(count, s.DLSpeed, s.ULSpeed, s.Latency))
          	}
 
             fmt.Println("The list of speeds are: ")
@@ -61,7 +76,7 @@ func main(){
    }
 
    for _, value := range downloadSpeeds {
-      sum += value
+      sum += value.download
    }
 
    fmt.Println("The number of PINGs ran are:")
