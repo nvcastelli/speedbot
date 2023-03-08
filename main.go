@@ -52,7 +52,7 @@ func main(){
 
             user, _ := st.FetchUserInfo()
          	// Get a list of servers near a specified location
-         	// user.SetLocationByCity("Tokyo")
+         	user.SetLocationByCity("Dallas")
          	// user.SetLocation("Osaka", 34.6952, 135.5006)
 
          	serverList, _ := st.FetchServers(user)
@@ -60,16 +60,13 @@ func main(){
 
          	for _, s := range targets {
          		s.PingTest()
-         		s.DownloadTest(false)
-         		s.UploadTest(false)
+         		s.DownloadTest()
+         		s.UploadTest()
                count++
 
          		fmt.Printf("Latency: %s, Download: %f, Upload: %f\n", s.Latency, s.DLSpeed, s.ULSpeed)
          		downloadSpeeds = append(downloadSpeeds, newPingSet(count, s.DLSpeed, s.ULSpeed, s.Latency))
          	}
-
-            fmt.Println("The list of speeds are: ")
-            fmt.Println(downloadSpeeds)
 
       }
 
@@ -78,6 +75,9 @@ func main(){
    for _, value := range downloadSpeeds {
       sum += value.download
    }
+
+   fmt.Println("The list of speeds are: ")
+   fmt.Println(downloadSpeeds)
 
    fmt.Println("The number of PINGs ran are:")
    fmt.Println(count)
