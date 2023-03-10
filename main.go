@@ -13,6 +13,7 @@ type pingSet struct {
    download float64
    upload float64
    latency time.Duration
+   currentTime time.Time
 }
 
 func newPingSet(iteration float64, download float64, upload float64, latency time.Duration) pingSet {
@@ -20,7 +21,12 @@ func newPingSet(iteration float64, download float64, upload float64, latency tim
    p.download = download
    p.upload = upload
    p.latency = latency
+   p.currentTime = time.Now()
    return p
+}
+
+func getCurrentTime (currentPingSet pingSet) time.Time {
+   return currentPingSet.currentTime
 }
 
 func main(){
@@ -31,12 +37,6 @@ func main(){
    timeLength, _ := time.ParseDuration(scanLengthString)
 
    var count float64  = 0
-   //scanLengthInt, err := strconv.Atoi(scanLengthString)
-
-   //d := time.Minute * scanLengthInt
-   //scanLengthSeconds := int(d / time.Second)
-
-
    var sum float64 = 0
    var downloadSpeeds []pingSet
 
@@ -46,14 +46,8 @@ func main(){
       select {
          case <-timeout:
             stay = false
-            fmt.Println("+++I'm in timeout case?+++")
          default:
-   	      fmt.Println("---I'm in default case?---")
-
             user, _ := st.FetchUserInfo()
-         	// Get a list of servers near a specified location
-         	user.SetLocationByCity("Dallas")
-         	// user.SetLocation("Osaka", 34.6952, 135.5006)
 
          	serverList, _ := st.FetchServers(user)
          	targets, _ := serverList.FindServer([]int{})
